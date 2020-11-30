@@ -21,7 +21,10 @@ test("Creates a registry", async () => {
   // the Install Repo doesn't always register (in fact, from the
   // screenshot on failure, it appears to focus the button only (hover css applied)
   await expect(page).toClick("cds-button", { text: "Install Repo" });
-  await expect(page).toClick("a", { text: "my-repo" });
+  await utils.retryAndRefresh(page, 3, async () => {
+    // TODO(andresmgot): In theory, no need to refresh
+    await expect(page).toClick("a", { text: "my-repo" });
+  });
 
   await utils.retryAndRefresh(page, 3, async () => {
     await expect(page).toMatch("gitlab-runner", { timeout: 2000 });

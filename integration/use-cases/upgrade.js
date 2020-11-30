@@ -51,5 +51,8 @@ test("Upgrades an application", async () => {
 
   await expect(page).toClick("cds-button", { text: "Deploy" });
 
-  await expect(page).toMatch("Up to date", { timeout: 60000 });
+  await utils.retryAndRefresh(page, 3, async () => {
+    // TODO(andresmgot): Is still rendering the old version?
+    await expect(page).toMatch("Up to date");
+  });
 });

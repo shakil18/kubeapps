@@ -84,16 +84,24 @@ test("Creates a private registry", async () => {
   // Upgrade apache and verify.
   await expect(page).toClick("cds-button", { text: "Upgrade" });
 
-  await new Promise((r) => setTimeout(r, 500));
+  let retries = 3;
+  try {
+    await new Promise((r) => setTimeout(r, 500));
 
-  let chartVersionElement = await expect(page).toMatchElement(
-    '.upgrade-form-version-selector select[name="chart-versions"]'
-  );
-  let chartVersionElementContent = await chartVersionElement.getProperty(
-    "value"
-  );
-  let chartVersionValue = await chartVersionElementContent.jsonValue();
-  expect(chartVersionValue).toEqual("7.3.15");
+    let chartVersionElement = await expect(page).toMatchElement(
+      '.upgrade-form-version-selector select[name="chart-versions"]'
+    );
+    let chartVersionElementContent = await chartVersionElement.getProperty(
+      "value"
+    );
+    let chartVersionValue = await chartVersionElementContent.jsonValue();
+    expect(chartVersionValue).toEqual("7.3.15");
+  } catch(e) {
+    retries--;
+    if (!retries) {
+      throw e;
+    }
+  }
 
   // TODO(andresmgot): Avoid race condition for selecting the latest version
   // but going back to the previous version
