@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 ## Build conditions
 # Build in any branch or tag
@@ -37,6 +37,9 @@ workflows:
           <<: *build_always
       - local_e2e_tests:
           <<: *build_always
+          matrix:
+            parameters:
+              number: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
           requires:
             - test_go
             - test_dashboard
