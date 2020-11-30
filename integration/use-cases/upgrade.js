@@ -1,3 +1,5 @@
+const utils = require("./lib/utils");
+
 test("Upgrades an application", async () => {
   await page.goto(getUrl("/#/c/default/ns/default/catalog?Repository=bitnami"));
 

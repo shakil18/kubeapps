@@ -19,20 +19,22 @@ test("Deploys an Operator", async () => {
   // Deploy the Operator
   await expect(page).toClick("cds-button", { text: "Deploy" });
 
-  await utils.retryAndRefresh(page, 10, async () => {
+  await utils.retryAndRefresh(page, 2, async () => {
     // The CSV takes a bit to get populated
-    await expect(page).toMatch("Installed", { timeout: 10000 });
+    await expect(page).toMatch("Installed");
   });
 
   // Wait for the operator to be ready to be used
   await expect(page).toClick("a", { text: "Catalog" });
 
-  // Filter out charts to search only for the prometheus operator
-  await expect(page).toClick("label", { text: "Operators" });
+  await utils.retryAndRefresh(page, 10, async () => {
+    // Filter out charts to search only for the prometheus operator
+    await expect(page).toClick("label", { text: "Operators" });
 
-  await expect(page).toMatch("Prometheus");
+    await expect(page).toMatch("Prometheus");
 
-  await expect(page).toClick(".info-card-header", { text: "Prometheus" });
+    await expect(page).toClick(".info-card-header", { text: "Prometheus" });
+  });
 
   await expect(page).toClick("cds-button", { text: "Deploy" });
 
@@ -60,5 +62,5 @@ test("Deploys an Operator", async () => {
   );
 
   // Goes back to application list
-  await expect(page).toMatch("Applications");
+  await expect(page).toMatch("Applications", { timeout: 60000 });
 });
