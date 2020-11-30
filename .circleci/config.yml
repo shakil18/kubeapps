@@ -130,7 +130,7 @@ build_images: &build_images
     - <<: *exports
     - run: |
         mkdir -p images/
-        read -ra IMG_ARRAY <<< "$IMAGES"
+        read -ra IMG_ARRAY \<<< "$IMAGES"
         if [[ -n "${CIRCLE_TAG}" ]]; then
           makeArgs="VERSION=${CIRCLE_TAG}"
         fi
@@ -297,6 +297,9 @@ jobs:
       HELM_VERSION: "v3.0.2"
       KUBEAPPS_DB: "postgresql"
       TEST_UPGRADE: "1"
+    parameters:
+      number:
+        type: string
     <<: *local_e2e_steps
   GKE_1_15_MASTER:
     <<: *gke_test
