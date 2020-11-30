@@ -153,6 +153,7 @@ install_kubectl: &install_kubectl
     sudo mv ./kubectl /usr/local/bin/kubectl
 install_node12: &install_node12
   run: |
+    source ~/.bashrc
     nvm install 12
     nvm alias default 12
 run_e2e_tests: &run_e2e_tests
