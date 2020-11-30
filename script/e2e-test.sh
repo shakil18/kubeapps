@@ -246,7 +246,7 @@ svcs=(
   "kubeapps-ci-internal-dashboard"
 )
 for svc in "${svcs[@]}"; do
-  k8s_wait_for_endpoints kubeapps "$svc" 2
+  k8s_wait_for_endpoints kubeapps "$svc" 1
   info "Endpoints for ${svc} available"
 done
 
