@@ -1,4 +1,7 @@
 const utils = require("./lib/utils");
+const {
+  screenshotsFolder,
+} = require("../args");
 
 test("Deploys an Operator", async () => {
   await page.goto(getUrl("/#/c/default/ns/kubeapps/operators"));
@@ -14,7 +17,15 @@ test("Deploys an Operator", async () => {
   // Browse operator
   await expect(page).toClick("a", { text: "prometheus" });
 
+  await this.global.page.screenshot({
+    path: path.join(__dirname, `../${screenshotsFolder}/operator-deployment-1.png`), 
+  });
+
   await expect(page).toClick("cds-button", { text: "Deploy" });
+
+  await this.global.page.screenshot({
+    path: path.join(__dirname, `../${screenshotsFolder}/operator-deployment-2.png`), 
+  });
 
   // Deploy the Operator
   await expect(page).toClick("cds-button", { text: "Deploy" });
@@ -36,6 +47,10 @@ test("Deploys an Operator", async () => {
     await expect(page).toClick(".info-card-header", { text: "Prometheus" });
   });
 
+  await this.global.page.screenshot({
+    path: path.join(__dirname, `../${screenshotsFolder}/operator-deployment-3.png`), 
+  });
+
   await expect(page).toClick("cds-button", { text: "Deploy" });
 
   await expect(page).toMatch("Installation Values");
@@ -44,6 +59,10 @@ test("Deploys an Operator", async () => {
   await expect(page).toClick("cds-button", { text: "Update" });
 
   await expect(page).toMatch("creationTimestamp");
+
+  await this.global.page.screenshot({
+    path: path.join(__dirname, `../${screenshotsFolder}/operator-deployment-4.png`), 
+  });
 
   await expect(page).toClick("cds-button", { text: "Deploy" });
 
