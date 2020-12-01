@@ -17,13 +17,13 @@ test("Deploys an Operator", async () => {
   // Browse operator
   await expect(page).toClick("a", { text: "prometheus" });
 
-  await this.global.page.screenshot({
+  await page.screenshot({
     path: path.join(__dirname, `../${screenshotsFolder}/operator-deployment-1.png`), 
   });
 
   await expect(page).toClick("cds-button", { text: "Deploy" });
 
-  await this.global.page.screenshot({
+  await page.screenshot({
     path: path.join(__dirname, `../${screenshotsFolder}/operator-deployment-2.png`), 
   });
 
@@ -47,7 +47,7 @@ test("Deploys an Operator", async () => {
     await expect(page).toClick(".info-card-header", { text: "Prometheus" });
   });
 
-  await this.global.page.screenshot({
+  await page.screenshot({
     path: path.join(__dirname, `../${screenshotsFolder}/operator-deployment-3.png`), 
   });
 
@@ -60,7 +60,7 @@ test("Deploys an Operator", async () => {
 
   await expect(page).toMatch("creationTimestamp");
 
-  await this.global.page.screenshot({
+  await page.screenshot({
     path: path.join(__dirname, `../${screenshotsFolder}/operator-deployment-4.png`), 
   });
 
