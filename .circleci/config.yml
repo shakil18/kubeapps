@@ -227,7 +227,14 @@ local_e2e_steps: &local_e2e_steps
         curl -LO https://github.com/kubernetes-sigs/kind/releases/download/v0.7.0/kind-Linux-amd64
         chmod +x kind-Linux-amd64
         sudo mv kind-Linux-amd64 /usr/local/bin/kind
-    - run: kind create cluster
+    - run: |
+        if kind create cluster; then
+          echo "Cluster created"
+        else
+          echo "Cluster creation failed, retrying"
+          kind delete cluster || true
+          kind create cluster
+        fi
     - run: echo "export KUBECONFIG=$(kind get kubeconfig-path --name=kind)" >> $BASH_ENV
     - <<: *install_kubectl
     - <<: *install_helm_cli
