@@ -151,11 +151,6 @@ install_kubectl: &install_kubectl
     curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.14.0/bin/linux/amd64/kubectl
     chmod +x ./kubectl
     sudo mv ./kubectl /usr/local/bin/kubectl
-install_node12: &install_node12
-  run: |
-    source ~/.bashrc
-    nvm install 12
-    nvm alias default 12
 run_e2e_tests: &run_e2e_tests
   run: |
     # If we want to test the latest version instead we override the image to be used
@@ -209,7 +204,6 @@ gke_test: &gke_test
     - run: ./script/start-gke-env.sh $ESCAPED_GKE_CLUSTER $GKE_ZONE $GKE_BRANCH $GKE_ADMIN > /dev/null
     # Install helm
     - <<: *install_helm_cli
-    - <<: *install_node12
     - <<: *run_e2e_tests
     - store_artifacts:
         path: integration/reports
@@ -242,7 +236,6 @@ local_e2e_steps: &local_e2e_steps
     - attach_workspace:
         at: /tmp/images
     - run: for image in /tmp/images/*; do kind load image-archive "$image"; done
-    - <<: *install_node12
     - <<: *run_e2e_tests
     - store_artifacts:
         path: integration/reports

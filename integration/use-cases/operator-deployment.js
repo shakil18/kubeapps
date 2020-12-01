@@ -40,6 +40,9 @@ test("Deploys an Operator", async () => {
   await expect(page).toClick("a", { text: "Catalog" });
 
   await utils.retryAndRefresh(page, 10, async () => {
+    const { JSHeapUsedSize } = await page.metrics();
+    console.log("Memory usage: ", JSHeapUsedSize);
+
     // Filter out charts to search only for the prometheus operator
     await expect(page).toClick("label", { text: "Operators" });
 
@@ -51,6 +54,8 @@ test("Deploys an Operator", async () => {
   await page.screenshot({
     path: path.join(__dirname, `../${screenshotsFolder}/operator-deployment-3.png`), 
   });
+
+  await expect(page).toMatch("Deploy");
 
   await utils.retryAndRefresh(page, 2, async () => {
     // Found the error "prometheuses.monitorin.coreos.com not found in the definition of prometheusoperator"
