@@ -2,6 +2,7 @@ const utils = require("./lib/utils");
 const {
   screenshotsFolder,
 } = require("../args");
+const path = require("path");
 
 test("Deploys an Operator", async () => {
   await page.goto(getUrl("/#/c/default/ns/kubeapps/operators"));
