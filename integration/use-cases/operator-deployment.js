@@ -52,7 +52,10 @@ test("Deploys an Operator", async () => {
     path: path.join(__dirname, `../${screenshotsFolder}/operator-deployment-3.png`), 
   });
 
-  await expect(page).toClick("cds-button", { text: "Deploy" });
+  await utils.retryAndRefresh(page, 2, async () => {
+    // Found the error "prometheuses.monitorin.coreos.com not found in the definition of prometheusoperator"
+    await expect(page).toClick("cds-button", { text: "Deploy" });
+  });
 
   await expect(page).toMatch("Installation Values");
 
